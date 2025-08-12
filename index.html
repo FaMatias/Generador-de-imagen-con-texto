@@ -89,18 +89,22 @@
         }
 
         /**
-         * Llama a la API de generación de imágenes para crear una imagen a partir de un prompt.
-         * Incluye una estrategia de reintentos con backoff exponencial.
+         * Llama a la API de generación de imágenes a través de un servidor proxy.
+         * NOTA: Este código asume que el servidor proxy en la URL proporcionada
+         * está configurado para reenviar la solicitud a la API de Google con
+         * la clave de API necesaria.
          * @param {string} prompt - La descripción de la imagen a generar.
          * @returns {Promise<string>} La URL base64 de la imagen generada.
          */
         async function generateAIImage(prompt) {
+            // Usamos la URL del servidor proxy proporcionada por el usuario.
+            // El proxy debe manejar la autenticación con la API de Google.
+            const apiUrl = "https://servidor-proxy-78cv.onrender.com";
+            
             const payload = { 
                 instances: { prompt: prompt }, 
                 parameters: { "sampleCount": 1 } 
             };
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
             
             let response = null;
             let retries = 0;
